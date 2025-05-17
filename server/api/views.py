@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
+from rest_framework import viewsets
 from telethon.tl.functions.users import GetFullUserRequest
 from telegramapi.models import DetectedMessage,TelegramUser
 from .serializers import DetectedMessageSerializer,TelegramUserSerializer
@@ -16,11 +17,10 @@ phone_number = "+919998857921"
 # Initialize the Telegram client
 client = TelegramClient('session_name', api_id, api_hash)
 
-@api_view(['GET'])
-def get_messages(request):
-    message = DetectedMessage.objects.all()
-    serializer = DetectedMessageSerializer(message, many=True)
-    return Response(serializer.data)
+class DetectedMessageViewSet(viewsets.ModelViewSet):
+    queryset = DetectedMessage.objects.all()
+    serializer_class = DetectedMessageSerializer
+
 @api_view(['GET'])
 def userdetails(request):
     user_id = request.GET.get("user_id")  # Get user_id from query parameters
@@ -67,20 +67,7 @@ def userdetails(request):
 
     finally:
         async_to_sync(client.disconnect)()
-@api_view(['GET', 'POST'])
-def get_tusers(request):
-    if request.method == 'GET':
-        # Return all Telegram users
-        users = TelegramUser.objects.all()
-        serializer = TelegramUserSerializer(users, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    elif request.method == 'POST':
-        # Get specific user by user_id from the POST request
-        user_id = request.data.get('user_id')
-        try:
-            user = TelegramUser.objects.get(user_id=user_id)
-            serializer = TelegramUserSerializer(user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except TelegramUser.DoesNotExist:
-            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+class TelegramUserViewSet(viewsets.ModelViewSet):
+    queryset = TelegramUser.objects.all()
+    serializer_class = TelegramUserSerializer

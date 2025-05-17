@@ -7,7 +7,7 @@ class DetectedMessage(models.Model):
         ('Pattern', 'Pattern'),
         # ('BERT', 'BERT'),
         # ('Other', 'Other'),
-    ]
+    ] 
     message_id = models.BigIntegerField()
     chat_id = models.BigIntegerField()
     chat_name = models.CharField(max_length=255, null=True, blank=True)
