@@ -1,0 +1,15 @@
+bert_classifier.pth
+
+# Ignore virtual environments
+venv/
+.venv/
+
+# Ignore dependencies
+__pycache__/
+*.pyc
+*.pyo
+*.log
+
+# Ignore cache and temp files
+.cache/
+.vscode/

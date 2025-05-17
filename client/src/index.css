@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+::-webkit-scrollbar {
+  display: none;
+}
+.width-48 {
+  width: 48.5%;
+}
+.username {
+  display: none;
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+.hover:hover > .username {
+  display: inline-block;
+  opacity: 1;
+}
+.username::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  clip-path: polygon(0 0, 0% 100%, 100% 100%);
+  background: #fff;
+  right: -10px;
+  top: 4px;
+}
